@@ -26,6 +26,15 @@
         <link rel="stylesheet" href="assets/css/style.css">
     </head>
     <body>
+        <script>
+            .success-message {
+            font - weight: bold;
+            font - size: 25px;
+            color: green;
+            text - align: center;
+            margin - top: 20px;
+            }
+        </script>
         <!-- ? Preloader Start -->
         <div id="preloader-active">
             <div class="preloader d-flex align-items-center justify-content-center">
@@ -51,8 +60,8 @@
                     </div>
                     <h2>Login Here</h2>
                     <div class="form-input">
-                        <label for="name">Email</label>
-                        <input  type="email" name="email" placeholder="Email">
+                        <label for="name">Username</label>
+                        <input  type="text" name="usename" placeholder="Username">
                     </div>
                     <div class="form-input">
                         <label for="name">Password</label>
@@ -65,10 +74,11 @@
                     <!-- Forget Password -->
                     <a href="#" class="forget">Forget Password</a>
                     <!-- Forget Password -->
-                    <a href="register.jsp" class="registration">Registration</a>
+                    <a href="register.jsp" class="registration">Register</a>
                     <div>
-                        <h1 style="font-weight: bold; font-size: 30px; color: green; margin-top: 25px; text-align: center;"> ${mess} </h1>
+                        <h1 style="font-weight: bold; font-size: 30px; color: green; margin-top: 25px; text-align: center;"> ${registsuccess} </h1>
                     </div>
+                    <h3 class="success-message">${mess}</h3>
                 </div>
             </form>
             <!-- /end login form -->

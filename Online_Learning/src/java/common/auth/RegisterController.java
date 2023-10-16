@@ -4,6 +4,8 @@
  */
 package common.auth;
 
+//import dto.AccountDAO;
+import dto.AccountDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -11,17 +13,23 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.time.LocalDate;
+import java.time.Period;
+import utils.EmailUtils;
+//import model.Account;
+//import utils.EmailUtils;
 
 /**
  *
  * @author leha1
  */
-@WebServlet(name = "RegisterController", urlPatterns = {"/register"})
+@WebServlet(name = "RegisterController", urlPatterns = "/register")
 public class RegisterController extends HttpServlet {
 
+    private static final String PASSWORD_REGEX = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%]).{8,20}";
+    private static final String USERNAME_REGEX = "[a-z0-9]{4,20}";
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      *
      * @param request servlet request
      * @param response servlet response
@@ -32,17 +40,16 @@ public class RegisterController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            String name = request.getParameter("name");
-            String email = request.getParameter("email");
-            String password = request.getParameter("password");
-            String cfpassword = request.getParameter("cfpassword");
-            if (password.equals(cfpassword)) {
-                request.setAttribute("mess", "Registered successfully");
-                request.getRequestDispatcher("login.jsp").forward(request, response);
-            } else {
-                request.setAttribute("mess1", "Registration failed, try entering password");
-                request.getRequestDispatcher("register.jsp").forward(request, response);
-            }
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet RegisterController</title>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet RegisterController at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 
@@ -58,7 +65,7 @@ public class RegisterController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("login.jsp").forward(request, response);
+        response.sendRedirect("register.jsp");
     }
 
     /**
@@ -72,7 +79,57 @@ public class RegisterController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        AccountDAO ad = new AccountDAO();
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        String confirm = request.getParameter("cfpassword");
+        String fullname = request.getParameter("fullname");
+        String dob_raw = request.getParameter("dob");
+        String email = request.getParameter("email");
+        String address = request.getParameter("address");
+
+        // set attribute
+        request.setAttribute("username", username);
+        request.setAttribute("password", password);
+        request.setAttribute("fullname", fullname);
+        request.setAttribute("dob", dob_raw);
+        request.setAttribute("email", email);
+        request.setAttribute("address", address);
+        int count = 3;
+        request.setAttribute("count", count);
+
+        // check age <= 3
+        LocalDate dob = LocalDate.parse(dob_raw);
+        LocalDate curDate = LocalDate.now();
+        Period age = Period.between(dob, curDate);
+        boolean checkDob = age.getYears() <= 3;
+        if(!username.matches(USERNAME_REGEX)){
+            request.setAttribute("mess", "Your username can only be consecutive lowercase letters and numbers");
+            request.getRequestDispatcher("register.jsp").forward(request, response);
+        }else if (!password.matches(PASSWORD_REGEX)) {
+            request.setAttribute("mess", "Your password must has at least 8 characters and contain uppercase, lowercase, number and specical syntax (!, @, #, $, %)");
+            request.getRequestDispatcher("register.jsp").forward(request, response);
+        } else if (checkDob) {
+            request.setAttribute("mess", "Your age is not enough");
+            request.getRequestDispatcher("register.jsp").forward(request, response);
+        } else if (ad.checkExistedEmail(email)) {
+            request.setAttribute("mess", "This email already registered of another account");
+            request.getRequestDispatcher("register.jsp").forward(request, response);
+        } else if (ad.checkExistedUsername(username)) {
+            request.setAttribute("mess", "This username already existed");
+            request.getRequestDispatcher("register.jsp").forward(request, response);
+        } else if (password.equals(confirm)) {
+            //Generate OTP
+            String otp = EmailUtils.generateOTP();
+            //send OTP to mail
+            EmailUtils.sendEmail(email, "Online Learning - Register", "Hello, Your OTP code is: " + otp);
+            request.setAttribute("otp", otp);
+            request.getRequestDispatcher("verifyregister.jsp").forward(request, response);
+        } else {
+            request.setAttribute("mess", "Confirm password is incorrect");
+            request.getRequestDispatcher("register.jsp").forward(request, response);
+        }
+
     }
 
     /**

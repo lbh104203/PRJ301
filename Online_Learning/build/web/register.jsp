@@ -38,7 +38,23 @@
             </div>
         </div>
         <!-- Preloader Start-->
+        <script>
+            .error-message {
+            font - weight: bold;
+            font - size: 25px;
+            color: red;
+            text - align: center;
+            margin - top: 20px;
+            }
 
+            .success-message {
+            font - weight: bold;
+            font - size: 25px;
+            color: green;
+            text - align: center;
+            margin - top: 20px;
+            }
+        </script>
 
         <!-- Register -->
 
@@ -51,15 +67,26 @@
                     <div class="logo-login">
                         <a href="index.html"><img src="assets/img/logo/loder.png" alt=""></a>
                     </div>
-                    <h2>Registration Here</h2>
-
+                    <h2>Registration Here</h2>  
                     <div class="form-input">
-                        <label for="name">Full name</label>
-                        <input  type="text" name="name" placeholder="Full name">
+                        <label for="name">Full Name</label>
+                        <input type="text" name="fullname" placeholder="Full Name">
+                    </div>
+                    <div class="form-input">
+                        <label for="name">Date of Birth</label>
+                        <input  type="date" name="dob" placeholder="Date of Birth">
+                    </div>
+                    <div class="form-input">
+                        <label for="name">Address</label>
+                        <input type="text" name="address" placeholder="Address">
                     </div>
                     <div class="form-input">
                         <label for="name">Email Address</label>
                         <input type="email" name="email" placeholder="Email Address">
+                    </div>
+                    <div class="form-input">
+                        <label for="name">Username</label>
+                        <input type="text" name="username" placeholder="Username">
                     </div>
                     <div class="form-input">
                         <label for="name">Password</label>
@@ -74,8 +101,7 @@
                     </div>
                     <!-- Forget Password -->
                     <a href="login.jsp" class="registration">Login</a>
-
-                    <h3 style="font-weight: bold;font-size: 15px;color: red;text-align: center; margin-top:20px;">${mess1}</h3>
+                    <h3 class="error-message">${mess}</h3>
                 </div>
             </form>
             <!-- /end login form -->
