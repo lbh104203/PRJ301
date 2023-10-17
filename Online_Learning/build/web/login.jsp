@@ -27,6 +27,14 @@
     </head>
     <body>
         <script>
+            .error-message {
+            font - weight: bold;
+            font - size: 25px;
+            color: red;
+            text - align: center;
+            margin - top: 20px;
+            }
+
             .success-message {
             font - weight: bold;
             font - size: 25px;

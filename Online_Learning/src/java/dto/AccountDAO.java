@@ -4,9 +4,6 @@
  */
 package dto;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import model.Account;
 
@@ -16,6 +13,7 @@ import model.Account;
  */
 public class AccountDAO extends DBContext {
 
+    //Lay ttin tai khoang tu database
     public Account getAccount(String username) {
         Account account = null;
         try {
@@ -82,4 +80,40 @@ public class AccountDAO extends DBContext {
         }
         return false;
     }
+
+    //Neu dang ki thanh cong se tao 1 tai khoan trong database
+    public boolean createAccount(Account account) {
+        try {
+            String sql = "INSERT INTO Account (username, password, fullname, email) VALUES (?, ?, ?, ?)";
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, account.getUsername());
+            ps.setString(2, account.getPassword());
+            ps.setString(3, account.getFullname());
+            ps.setString(4, account.getEmail());
+
+            int rowsAffected = ps.executeUpdate();
+
+            if (rowsAffected > 0) {
+                return true;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean checkUser(String username, String password) {
+        try {
+            String sql = "SELECT * FROM Account WHERE username = ? AND password = ?";
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, username);
+            ps.setString(2, password);
+            rs = ps.executeQuery();
+            return true;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return false; // Nếu có lỗi xảy ra, trả về false để xác định rằng tên người dùng và mật khẩu không hợp lệ.
+    }
+
 }

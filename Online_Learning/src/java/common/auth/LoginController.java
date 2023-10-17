@@ -5,6 +5,7 @@
 
 package common.auth;
 
+import dto.AccountDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -31,8 +32,18 @@ public class LoginController extends HttpServlet {
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            String email = request.getParameter("email");
+            String username = request.getParameter("username");
             String password = request.getParameter("password");
+
+            AccountDAO accountDAO = new AccountDAO();
+            boolean isUserValid = accountDAO.checkUser(username, password);
+
+            if (isUserValid) {
+                request.getRequestDispatcher("home.jsp").forward(request, response);
+            } else {
+                request.setAttribute("mess", "Please check your account and password again");
+                request.getRequestDispatcher("login.jsp").forward(request, response);
+            }
             
         }
     } 
