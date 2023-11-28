@@ -1,0 +1,199 @@
+@import url('https://fonts.googleapis.com/css2?family=Odibee+Sans&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Odibee Sans', cursive;
+}
+
+section {
+    background: #111;
+}
+
+section img {
+    max-width: 100%;
+}
+
+section .bannerVideo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+section .bannerVideo h2 {
+    position: absolute;
+    top: 30%;
+    left: 10%;
+    color: #fff;
+    font-size: 6rem;
+    line-height: 1rem;
+    font-weight: 800;
+}
+
+.container1 {
+    position: relative;
+    padding: 0 100px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+}
+
+.container1 header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 100px;
+}
+
+.container1 header .logo {
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #fff;
+    font-size: 2rem;
+    text-decoration: none;
+}
+
+.container1 header ul {
+    position: relative;
+    display: flex;
+}
+
+.container1 header.sticky {
+    padding: 5px 100px;
+    background: #fff;
+    z-index: 10000;
+}
+
+.container1 header.sticky ul li a.active {
+    background: #000;
+    color: #fff;
+}
+
+.container1 header.sticky .logo,
+.container1 header.sticky ul li a {
+    color: #000;
+}
+
+.container1 header.active ul {
+    display: flex;
+}
+
+.container1 header ul li {
+    list-style: none;
+    margin: 0 20px;
+}
+
+.container1 header ul li a {
+    position: relative;
+    text-decoration: none;
+    font-size: 18px;
+    padding: 4px 10px;
+    color: #fff;
+}
+
+.container1 header ul li a:hover {
+    background: #fff;
+    color: #111;
+}
+
+.container1 header ul li a.active {
+    background: #fff;
+    color: #111;
+}
+.img-blog
+{
+    padding-top: 400px;
+    padding-left: 40px;
+}
+.img-blog img 
+{
+    max-width: 100%;
+}
+/*----------------------*/
+@media (max-width:991px) {
+    .container1 {
+        padding: 20px;
+    }
+
+    section .bannerVideo h2 {
+        display: none;
+    }
+
+    .container1::before {
+        width: 100%;
+    }
+
+    .container1 header {
+        padding: 10px 20px;
+    }
+
+
+    .container1 header ul {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background: #fff;
+        z-index: 1000;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    .container1 header ul li {
+        text-align: center;
+        margin: 10px;
+    }
+
+    .container1 header ul li a {
+        color: #333;
+        font-size: 1.5rem;
+    }
+
+    .container1 header ul li a:hover {
+        background: #f00;
+    }
+
+    .menuIcon {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 50px;
+        height: 50px;
+        display: initial;
+        z-index: 10000;
+        background: #fff url(image/menu.png);
+        background-size: 30px;
+        background-repeat: no-repeat;
+        background-position: center;
+        cursor: pointer;
+    }
+
+    .menuIcon.active {
+        background: #fff url(image/close.png);
+        background-size: 30px;
+        background-repeat: no-repeat;
+        background-position: center;
+        cursor: pointer;
+    }
+
+    footer {
+        text-align: center;
+    }
+    .img-blog
+     {
+        padding-top: 100px;
+        padding-left: 0px;
+    }
+
+}
